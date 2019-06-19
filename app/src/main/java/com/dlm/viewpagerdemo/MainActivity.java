@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         initData2();
 
     }
+
     //*------------------------------------------方案一----------------------------------------------
     private void initData1() {
         itemList1 = new ArrayList<>();
@@ -104,16 +106,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
                 //验证当前的滑动是否结束
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) { //滑动动画做完的时候
+                    Log.i("ceshi", "onPageScrollStateChanged: 滑动状态结束");
                     if (currentPosition2 == 0) {
                         viewPager2.setCurrentItem(itemList2.size() - 2, false);//切换，不要动画效果
+
                     } else if (currentPosition2 == itemList2.size() - 1) {
                         viewPager2.setCurrentItem(1, false);//切换，不要动画效果
                     }
                 }
             }
         });
-
     }
 
     //*--------------------------------------轮播---------------------------------------------------
@@ -122,23 +125,51 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
             if (mIsAutoPlay) {
 
-                //方案一
+                //方案一,
                 currentPosition1 = viewPager1.getCurrentItem();
                 currentPosition1++;
                 if (currentPosition1 == bannerAdapter.getCount() - 1) {
-                    currentPosition1 = 0;
+                    currentPosition1 = 0;   //为了循环所以变为0
                     viewPager1.setCurrentItem(currentPosition1, false);
                     mHandler.postDelayed(this, mDelayedTime);
                 } else {
                     viewPager1.setCurrentItem(currentPosition1);
                     mHandler.postDelayed(this, mDelayedTime);
                 }
-
             } else {
                 mHandler.postDelayed(this, mDelayedTime);
             }
         }
     };
+//旧的，错误的
+//    private final Runnable mLoopRunnable2 = new Runnable() {
+//        @Override
+//        public void run() {
+//            if (mIsAutoPlay) {
+//                //方案二:多添两条数据
+//                currentPosition2 = viewPager2.getCurrentItem();
+//                Log.i("ceshi", "run: 当前页为" + viewPager2.getCurrentItem());
+//                currentPosition2++;
+//                if (currentPosition2 == bannerAdapter2.getCount() - 1) {    //滑到最后一个
+//                    Log.i("ceshi", "run:滑动最后一页");
+//                    currentPosition2 = 1;
+//                    viewPager2.setCurrentItem(currentPosition2, false);
+//                    mHandler2.postDelayed(this, mDelayedTime);
+//                } else if (currentPosition2 == 0) {                             //滑到第一个
+//                    Log.i("ceshi", "run:滑动最后0页");
+//                    currentPosition2 = bannerAdapter2.getCount() - 2;
+//                    viewPager2.setCurrentItem(currentPosition2, false);
+//                    mHandler2.postDelayed(this, mDelayedTime);
+//
+//                } else {
+//                    viewPager2.setCurrentItem(currentPosition2);
+//                    mHandler2.postDelayed(this, mDelayedTime);
+//                }
+//            } else {
+//                mHandler2.postDelayed(this, mDelayedTime);
+//            }
+//        }
+//    };
 
     private final Runnable mLoopRunnable2 = new Runnable() {
         @Override
@@ -147,24 +178,16 @@ public class MainActivity extends AppCompatActivity {
                 //方案二:多添两条数据
                 currentPosition2 = viewPager2.getCurrentItem();
                 currentPosition2++;
-                if (currentPosition2 == bannerAdapter2.getCount() - 1) {    //滑到最后一个
-                    currentPosition2 = 1;
-                    viewPager2.setCurrentItem(currentPosition2, false);
-                    mHandler2.postDelayed(this, mDelayedTime);
-                } else if(currentPosition2==0){                             //滑到第一个
-                    currentPosition2 = bannerAdapter2.getCount() - 2;
-                    viewPager2.setCurrentItem(currentPosition2, false);
-                    mHandler2.postDelayed(this, mDelayedTime);
+                //不需要为了循环轮播来判断是否到达最后一页然后
+                viewPager2.setCurrentItem(currentPosition2);
+                mHandler2.postDelayed(this, mDelayedTime);
 
-                } else {
-                    viewPager2.setCurrentItem(currentPosition2);
-                    mHandler2.postDelayed(this, mDelayedTime);
-                }
             } else {
                 mHandler2.postDelayed(this, mDelayedTime);
             }
         }
     };
+
 
     @Override
     protected void onResume() {
