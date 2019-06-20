@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private Handler mHandler2 = new Handler();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,15 +57,32 @@ public class MainActivity extends AppCompatActivity {
     private int getStartItem() {
         // 我们设置当前选中的位置为Integer.MAX_VALUE / 2,这样开始就能往左滑动
         // 但是要保证这个值与getRealPosition 的 余数为0，因为要从第一页开始显示
-        int currentItem = Integer.MAX_VALUE / 2;
-        if (currentItem % getRealCount() == 0) {
+//        int currentItem = Integer.MAX_VALUE / 2;
+//        if (currentItem % getRealCount() == 0) {
+//            return currentItem;
+//        }
+//        // 直到找到从0开始的位置
+//        while (currentItem % getRealCount() != 0) {
+//            currentItem++;
+//        }
+//        return currentItem;
+
+        if(getRealCount() == 0){
+            return 0;
+        }
+        // 我们设置当前选中的位置为Integer.MAX_VALUE / 2,这样开始就能往左滑动
+        // 但是要保证这个值与getRealPosition 的 余数为0，因为要从第一页开始显示
+        int currentItem = getRealCount() * BannerAdapter.mLooperCount / 2;
+        if(currentItem % getRealCount()  ==0 ){
             return currentItem;
         }
         // 直到找到从0开始的位置
-        while (currentItem % getRealCount() != 0) {
+        while (currentItem % getRealCount() != 0){
             currentItem++;
         }
         return currentItem;
+
+
     }
 
     /**
