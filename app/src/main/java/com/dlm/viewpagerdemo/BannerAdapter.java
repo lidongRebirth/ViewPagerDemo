@@ -47,7 +47,7 @@ public class BannerAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
-    //初始化一个item数据的时候的回调
+    //初始化一个item数据时候的回调
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
@@ -65,7 +65,6 @@ public class BannerAdapter extends PagerAdapter {
 
     /**
      * 获取真实的Count
-     *
      * @return
      */
     private int getRealCount() {

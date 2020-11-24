@@ -55,17 +55,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getStartItem() {
-        // 我们设置当前选中的位置为Integer.MAX_VALUE / 2,这样开始就能往左滑动
-        // 但是要保证这个值与getRealPosition 的 余数为0，因为要从第一页开始显示
-//        int currentItem = Integer.MAX_VALUE / 2;
-//        if (currentItem % getRealCount() == 0) {
-//            return currentItem;
-//        }
-//        // 直到找到从0开始的位置
-//        while (currentItem % getRealCount() != 0) {
-//            currentItem++;
-//        }
-//        return currentItem;
 
         if(getRealCount() == 0){
             return 0;
@@ -160,35 +149,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-//旧的，错误的
-//    private final Runnable mLoopRunnable2 = new Runnable() {
-//        @Override
-//        public void run() {
-//            if (mIsAutoPlay) {
-//                //方案二:多添两条数据
-//                currentPosition2 = viewPager2.getCurrentItem();
-//                Log.i("ceshi", "run: 当前页为" + viewPager2.getCurrentItem());
-//                currentPosition2++;
-//                if (currentPosition2 == bannerAdapter2.getCount() - 1) {    //滑到最后一个
-//                    Log.i("ceshi", "run:滑动最后一页");
-//                    currentPosition2 = 1;
-//                    viewPager2.setCurrentItem(currentPosition2, false);
-//                    mHandler2.postDelayed(this, mDelayedTime);
-//                } else if (currentPosition2 == 0) {                             //滑到第一个
-//                    Log.i("ceshi", "run:滑动最后0页");
-//                    currentPosition2 = bannerAdapter2.getCount() - 2;
-//                    viewPager2.setCurrentItem(currentPosition2, false);
-//                    mHandler2.postDelayed(this, mDelayedTime);
-//
-//                } else {
-//                    viewPager2.setCurrentItem(currentPosition2);
-//                    mHandler2.postDelayed(this, mDelayedTime);
-//                }
-//            } else {
-//                mHandler2.postDelayed(this, mDelayedTime);
-//            }
-//        }
-//    };
 
     private final Runnable mLoopRunnable2 = new Runnable() {
         @Override
